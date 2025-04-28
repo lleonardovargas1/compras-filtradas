@@ -11,10 +11,8 @@ const preco = {
     master: 700.00,
     pulga: 199.00,
     cristianoRonaldo: 299.00
-   
-
 };
- 
+
 const produtos = [
     {
         titulo: "griezmann",
@@ -89,23 +87,22 @@ const produtos = [
         imagem: "https://p2.trrsf.com/image/fget/cf/774/0/images.terra.com/2024/04/15/492808233-poatancinturaoufc300.jpeg"
     }
 ];
- 
- 
+
 const produtosNaCesta = [];
 const container = document.getElementById('container');
 const listaC = document.querySelector('.listaC');
 const overlay = document.querySelector('.overlay');
- 
+
 function mostrarCarrinho() {
     listaC.classList.add('mostrar');
     overlay.classList.add('mostrar');
 }
- 
+
 function ocultarCarrinho() {
     listaC.classList.remove('mostrar');
     overlay.classList.remove('mostrar');
 }
- 
+
 function adicionarProdutosAoContainer() {
     produtos.forEach((produto, index) => {
         const divProduto = document.createElement('div');
@@ -118,7 +115,7 @@ function adicionarProdutosAoContainer() {
         `;
         container.appendChild(divProduto);
     });
- 
+
     const botoesComprar = document.querySelectorAll('.comprar');
     botoesComprar.forEach(botao => {
         botao.addEventListener('click', (e) => {
@@ -128,22 +125,22 @@ function adicionarProdutosAoContainer() {
         });
     });
 }
- 
+
 function adicionarProdutoNaCesta(index) {
     const produto = produtos[index];
     const produtoExistente = produtosNaCesta.find(p => p.titulo === produto.titulo);
     if (produtoExistente) {
         produtoExistente.quantidade++;
     } else {
-        produtosNaCesta.push({ ...produto, quantidade: 1 }); 
+        produtosNaCesta.push({ ...produto, quantidade: 1 });
     }
     atualizarListaC();
 }
- 
+
 function atualizarListaC() {
     const itensExistentes = listaC.querySelectorAll('.item-cesta');
     itensExistentes.forEach(item => item.remove());
- 
+
     produtosNaCesta.forEach((produto, index) => {
         const item = document.createElement('div');
         item.classList.add('item-cesta');
@@ -158,12 +155,11 @@ function atualizarListaC() {
         `;
         listaC.appendChild(item);
     });
- 
-    // Recalcula o total
+
     const precoTotal = produtosNaCesta.reduce((total, produto) => {
         return total + produto.preco * produto.quantidade;
     }, 0);
- 
+
     let totalDiv = document.querySelector('.total-preco');
     if (!totalDiv) {
         totalDiv = document.createElement('div');
@@ -171,8 +167,7 @@ function atualizarListaC() {
         listaC.appendChild(totalDiv);
     }
     totalDiv.innerHTML = `<h3 id="Total">Total: R$ ${precoTotal.toFixed(2)}</h3>`;
- 
-  
+
     const botoesDiminuir = document.querySelectorAll('.diminuir');
     botoesDiminuir.forEach(botao => {
         botao.addEventListener('click', (e) => {
@@ -185,7 +180,7 @@ function atualizarListaC() {
             atualizarListaC();
         });
     });
- 
+
     const botoesAumentar = document.querySelectorAll('.aumentar');
     botoesAumentar.forEach(botao => {
         botao.addEventListener('click', (e) => {
@@ -194,7 +189,7 @@ function atualizarListaC() {
             atualizarListaC();
         });
     });
- 
+
     const botoesRemover = document.querySelectorAll('.remover');
     botoesRemover.forEach(botao => {
         botao.addEventListener('click', (e) => {
@@ -204,6 +199,7 @@ function atualizarListaC() {
         });
     });
 }
+
 function filtrarProdutosPorCategoria(categoria) {
     const produtosContainer = document.querySelectorAll('#container .produto');
     produtosContainer.forEach(produto => produto.remove());
@@ -224,13 +220,11 @@ function filtrarProdutosPorCategoria(categoria) {
     const botoesComprar = document.querySelectorAll('.comprar');
     botoesComprar.forEach((botao, index) => {
         botao.addEventListener('click', () => {
-           
             adicionarProdutoNaCesta(produtos.indexOf(produtosFiltrados[index]));
             mostrarCarrinho();
         });
     });
 }
- 
 
 const navItems = document.querySelectorAll('nav h1');
 navItems.forEach(navItem => {
@@ -239,12 +233,8 @@ navItems.forEach(navItem => {
         filtrarProdutosPorCategoria(categoria);
     });
 });
- 
+
 document.querySelector('.excluir').addEventListener('click', ocultarCarrinho);
 overlay.addEventListener('click', ocultarCarrinho);
- 
-adicionarProdutosAoContainer();
-document.querySelector('.excluir').addEventListener('click', ocultarCarrinho);
-overlay.addEventListener('click', ocultarCarrinho);
- 
-adicionarProdutosAoContainer();
+
+adicionarProdutosAoContainer(); 
